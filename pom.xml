@@ -88,7 +88,12 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
     </dependencies>
-
+    <distributionManagement>
+        <repository>
+            <id>jfrog-release</id>
+            <url>https://trialvs67i0.jfrog.io/artifactory/todo-maven</url>
+        </repository>
+    </distributionManagement>
 	<build>
 		<plugins>
 			<plugin>
