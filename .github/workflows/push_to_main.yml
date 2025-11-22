@@ -40,3 +40,6 @@ jobs:
       # Step 7 — Push Docker Image to JFrog
       - name: Push Docker Image
         run: docker push trialvs67i0.jfrog.io/todo-docker/todo-app:${{ github.sha }}
+
+      - name: SonarCloud Scan
+        run: mvn -B verify sonar:sonar -Dsonar.token=${{ secrets.SONAR_TOKEN }}

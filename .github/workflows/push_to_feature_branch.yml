@@ -45,3 +45,9 @@ jobs:
       # Step 7: Push Docker image
       - name: Push Docker Image
         run: docker push trialvs67i0.jfrog.io/todo-docker/tod
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
