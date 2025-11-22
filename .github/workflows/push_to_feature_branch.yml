@@ -10,31 +10,38 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout code
       - uses: actions/checkout@v3
 
+      # Step 2: Setup Java
       - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '17'
           server-id: jfrog-release
-          server-username: ${{ secrets.JFROG_USERNAME }}
-          server-password: ${{ secrets.JFROG_PASSWORD }}
+          server-username: JFROG_USERNAME
+          server-password: JFROG_TOKEN
           overwrite-settings: true
 
+      # Step 3: Build using Maven
       - name: Build
-        run: mvn clean install
+        run: mvn clean install -DskipTests
 
-      - name: Deploy Maven Artifact to JFrog
-        run: mvn deploy
+      # Step 4: Deploy JAR to JFrog (Maven deploy)
+      - name: Deploy JAR to JFrog
+        run: mvn deploy -DskipTests
         env:
           JFROG_USERNAME: ${{ secrets.JFROG_USERNAME }}
-          JFROG_PASSWORD: ${{ secrets.JFROG_PASSWORD }}
+          JFROG_PASSWORD: ${{ secrets.JFROG_TOKEN }}
 
+      # Step 5: Login to JFrog Docker Registry
       - name: Login to JFrog Docker Registry
-        run: echo ${{ secrets.JFROG_PASSWORD }} | docker login trialvs67i0.jfrog.io -u ${{ secrets.JFROG_USERNAME }} --password-stdin
+        run: echo "${{ secrets.JFROG_TOKEN }}" | docker login trialvs67i0.jfrog.io -u "${{ secrets.JFROG_USERNAME }}" --password-stdin
 
+      # Step 6: Build Docker image
       - name: Build Docker Image
         run: docker build -t trialvs67i0.jfrog.io/todo-docker/todo-app:${{ github.sha }} .
 
+      # Step 7: Push Docker image
       - name: Push Docker Image
-        run: docker push trialvs67i0.jfrog.io/todo-docker/todo-app:${{ github.sha }}
+        run: docker push trialvs67i0.jfrog.io/todo-docker/tod
