@@ -26,8 +26,8 @@ jobs:
         run: mvn clean install -DskipTests
 
       # Step 4 — Deploy JAR to JFrog (Maven)
-      - name: Deploy JAR to JFrog (Maven)
-        run: mvn deploy -s .github/config/dev/settings.xml -DskipTests
+#      - name: Deploy JAR to JFrog (Maven)
+#        run: mvn deploy -s .github/config/dev/settings.xml -DskipTests
 
       # Step 5 — Login to JFrog Docker Registry
       - name: Login to JFrog Docker Registry
